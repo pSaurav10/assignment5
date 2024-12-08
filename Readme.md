@@ -62,19 +62,19 @@ max_len = 200         # Maximum review length
 x_train = pad_sequences(x_train, maxlen=max_len)
 x_test = pad_sequences(x_test, maxlen=max_len)
 ```
-Model Implementation
+## Model Implementation
 
 The primary model is a bidirectional LSTM designed to capture long-term dependencies and bidirectional context.
-Architecture:
 
-    Input Layer: Encodes the tokenized sequences.
-    Embedding Layer: Maps integers to dense vectors of fixed size.
-    Bidirectional LSTM Layer: Processes the sequence in both forward and backward directions.
-    Fully Connected Layers: Includes dropout for regularization.
-    Output Layer: A single neuron with sigmoid activation for binary classification.
+### Architecture:
+- **Input Layer**: Encodes the tokenized sequences.
+- **Embedding Layer**: Maps integers to dense vectors of fixed size.
+- **Bidirectional LSTM Layer**: Processes the sequence in both forward and backward directions.
+- **Fully Connected Layers**: Includes dropout for regularization.
+- **Output Layer**: A single neuron with sigmoid activation for binary classification.
 
-Code: Model Architecture
-
+### Code: Model Architecture
+```python
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Embedding, LSTM, Dense, Dropout, Bidirectional
 
@@ -89,16 +89,16 @@ model = Sequential([
 
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 model.summary()
+```
 
-Training the Model
+## Training the Model
 
-The training process used:
+### The training process used:
+- **Early Stopping**: Halts training if the validation loss stops improving.
+- **Validation Split**: 20% of the training set is used for validation.
 
-    Early Stopping: Halts training if the validation loss stops improving.
-    Validation Split: 20% of the training set is used for validation.
-
-Code: Training the Model
-
+### Code: Training the Model
+```python
 from tensorflow.keras.callbacks import EarlyStopping
 
 early_stop = EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
@@ -110,13 +110,15 @@ history = model.fit(
     validation_split=0.2,
     callbacks=[early_stop]
 )
+```
 
-Evaluation and Visualizations
-Model Performance
+## Evaluation and Visualizations
 
+### Model Performance
 The model was evaluated on accuracy and loss, using both training and validation datasets. The results are visualized below.
-Code: Visualizing Results
 
+### Code: Visualizing Results
+```python
 import matplotlib.pyplot as plt
 
 # Plot training and validation accuracy and loss
@@ -142,29 +144,33 @@ plt.legend()
 
 plt.tight_layout()
 plt.show()
+```
 
-Visualization Example:
+### Visualization Example:
+*(Replace this with the actual graph image)*
 
-(Replace this with the actual graph image)
-Hyperparameter Tuning
+---
 
-Several hyperparameters were tested:
+## Hyperparameter Tuning
 
-    Dropout Rates: Experimented with 0.2, 0.3, and 0.5.
-    LSTM Units: Compared 32, 64, and 128 units.
-    Learning Rates: Adjusted to find the optimal optimizer configuration.
+### Several hyperparameters were tested:
+- **Dropout Rates**: Experimented with 0.2, 0.3, and 0.5.
+- **LSTM Units**: Compared 32, 64, and 128 units.
+- **Learning Rates**: Adjusted to find the optimal optimizer configuration.
 
-Observations:
+### Observations:
+- Higher dropout values reduced overfitting but slightly increased training time.
+- Larger LSTM units improved performance at the cost of training time.
+- Optimal learning rates balanced model stability and convergence speed.
 
-    Higher dropout values reduced overfitting but slightly increased training time.
-    Larger LSTM units improved performance at the cost of training time.
-    Optimal learning rates balanced model stability and convergence speed.
+---
 
-Comparative Analysis
+## Comparative Analysis
 
 A feedforward neural network (FFN) was implemented for comparison. Unlike RNNs, FFNs lack the ability to model sequential dependencies, which limited its performance.
-Code: FFN Implementation
 
+### Code: FFN Implementation
+```python
 from tensorflow.keras.layers import Flatten
 
 ffn_model = Sequential([
@@ -183,16 +189,22 @@ history_ffn = ffn_model.fit(
     validation_split=0.2,
     callbacks=[early_stop]
 )
+```
 
-Results Comparison
-Metric	RNN (LSTM)	FFN
-Accuracy	88%	75%
-Training Time	Moderate	Fast
-Conclusion
+## Results Comparison
 
-    Performance: The RNN (LSTM) model achieved higher accuracy than the FFN due to its ability to capture temporal patterns.
-    Techniques: Regularization (dropout) and early stopping were critical in preventing overfitting.
-    RNN Strengths: Well-suited for sequential data like text, providing better contextual understanding.
-    FFN Limitations: Poor handling of sequential dependencies led to lower performance.
+| **Metric**       | **RNN (LSTM)** | **FFN** |
+|-------------------|----------------|----------|
+| **Accuracy**      | 88%            | 75%      |
+| **Training Time** | Moderate       | Fast     |
+
+---
+
+## Conclusion
+
+- **Performance**: The RNN (LSTM) model achieved higher accuracy than the FFN due to its ability to capture temporal patterns.
+- **Techniques**: Regularization (dropout) and early stopping were critical in preventing overfitting.
+- **RNN Strengths**: Well-suited for sequential data like text, providing better contextual understanding.
+- **FFN Limitations**: Poor handling of sequential dependencies led to lower performance.
 
 This project highlights the importance of selecting the right architecture for tasks involving sequential data like sentiment analysis.
