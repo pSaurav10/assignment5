@@ -147,7 +147,7 @@ plt.show()
 ```
 
 ### Visualization Example:
-*(Replace this with the actual graph image)*
+![Training vs Validation Accuracy](./TVA.png "Accuracy Graph")
 
 ---
 
